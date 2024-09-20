@@ -9,9 +9,8 @@
   <ul class="cart-list">
     @for (item of data; track item.price){
       <li class="cart-container">
-        <app-store-item [details]="item"/>
+        <app-store-item [item]="item"/>
       </li>
-<!--        <li class="cart-list-item"> {{ item.title }} - {{ item.quantity }} </li>-->
     }
   </ul>
 </div>

@@ -1,7 +1,7 @@
 <app-header />
 <app-store>
-  @for ( storeItem of storeItems; track storeItem.price) {
-    <app-store-item [details]="storeItem"/>
+  @for ( storeItem of storeItems(); track storeItem.price) {
+    <app-store-item [item]="storeItem"/>
   }
 
 </app-store>

@@ -16,24 +16,25 @@ import {StoreService} from "../../../store.service";
   }
 })
 export class StoreItemComponent implements OnInit{
-  details = input.required<ItemDetails>();
   storeService = inject(StoreService);
   quantity = signal<number>(0);
+  item = input.required<ItemDetails>();
+  storeItems = signal<ItemDetails[]>(this.storeService.getStoreItems());
 
   ngOnInit(): void {
-    const userItems: ItemDetails[] = this.storeService.getUserItems();
-    if (userItems) {
-      for (const storeItem of userItems) {
+    if (this.storeItems()) {
+      for (const storeItem of this.storeItems()) {
+        console.log(storeItem);
         this.storeService.initItemQuantity(this.quantity, storeItem.quantity);
       }
     }
   }
 
   onPlusClicked() {
-    this.storeService.updateItem(this.quantity, this.details(), true);
+    this.storeService.updateItem(this.quantity, this.item(), true);
   }
 
   onMinusClicked() {
-    this.storeService.updateItem(this.quantity, this.details(), false);
+    this.storeService.updateItem(this.quantity, this.item(), false);
   }
 }

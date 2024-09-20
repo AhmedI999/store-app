@@ -16,7 +16,7 @@ export class HeaderComponent {
   constructor(private dialog: MatDialog) {}
 
   onCartClicked() {
-    const userItems = this.storeService.getUserItems();
+    const userItems = this.storeService.getCartItems();
     this.dialog.open(CartModalComponent, {
       data: userItems,
     });

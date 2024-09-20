@@ -1,9 +1,9 @@
-<img src="{{ details().imagePath }}" alt="{{ details().imageAlt }}">
+<img src="{{ item().imagePath }}" alt="{{ item().imageAlt }}">
 <div class="details">
-  <h3>{{ details().title }}</h3>
+  <h3>{{ item().title }}</h3>
   <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor, nostrum?</p>
   <div class="price-quantity">
-    <h2 class="price">$ {{ details().price }}</h2>
+    <h2 class="price">$ {{ item().price }}</h2>
     <div class="quantity">
       <button (click)="onMinusClicked()">
         <i class="icon-minus fa-solid fa-minus"></i>

@@ -36,88 +36,105 @@ export class StoreService {
   ];
   cartItems: ItemDetails[] = [];
 
-  private getUserDetails(): UserDetails {
-    const user = localStorage.getItem('user')!;
-    return user ? JSON.parse(user) : {id: Math.random(), basket: []};
+  constructor() {
+    this.loadUserDetails();
   }
 
-  private updateUserDetails(user: UserDetails) {
-    localStorage.setItem('user', JSON.stringify(user));
+  // Save user details in localStorage
+  private updateUserDetails() {
+    const userDetails = {
+      storeItems: this.storeItems,
+      cartItems: this.cartItems,
+    };
+    localStorage.setItem("user", JSON.stringify(userDetails));
   }
 
-  private updateDomQuantity(quantity: WritableSignal<number>, isAdding: boolean): void {
-    // Update the quantity in the DOM
-    // Math.max ensures that the value never go below zero
-    quantity.update((number: number) => isAdding ? number + 1 : Math.max(0, number - 1))
-  }
-
-  private updateBasket(user: UserDetails, item: ItemDetails, isAdding: boolean): void {
-    // Separate method for updating the basket
-    const existingItem = user.basket.find(userItem => userItem.title === item.title);
-    if (existingItem) {
-      this.modifyExistingItem(existingItem, isAdding);
-
-      // Remove the item if the quantity drops to 0
-      if (existingItem.quantity === 0) {
-        this.removeItemFromBasket(user, item.title);
-      }
-    } else if (isAdding) {
-      this.addItemToBasket(user, item);
+  // Load user details from localStorage when the app starts
+  private loadUserDetails() {
+    const userData = localStorage.getItem("user");
+    if (userData) {
+      const userDetails = JSON.parse(userData);
+      this.storeItems = userDetails.storeItems || this.storeItems;
+      this.cartItems = userDetails.cartItems || this.cartItems;
     }
   }
 
-  private modifyExistingItem(existingItem: ItemDetails, isAdding: boolean): void {
-    // Method for modifying an existing item in the basket
-    existingItem.quantity = isAdding
-      ? existingItem.quantity + 1
-      : Math.max(0, existingItem.quantity - 1);
+  // Get cart items for display in the cart modal
+  getCartItems(): ItemDetails[] {
+    return this.cartItems.slice();
   }
 
-  private removeItemFromBasket(user: UserDetails, itemTitle: string): void {
-    // Method for removing an item from the basket
-    user.basket = user.basket.filter(userItem => userItem.title !== itemTitle);
+  // Get store items for display
+  getStoreItems(): ItemDetails[] {
+    return this.storeItems.slice();
   }
 
-  private addItemToBasket(user: UserDetails, item: ItemDetails): void {
-    // Method for adding a new item to the basket
-    user.basket.push({
-      imagePath: item.imagePath,
-      imageAlt: item.imageAlt,
-      title: item.title,
-      price: item.price,
-      quantity: 1, // Set initial quantity to 1 for new items
-    });
+  // Add item to cart and update the cartItems array
+  addToCart(item: ItemDetails): void {
+    const existingCartItem = this.cartItems.find(cartItem => cartItem.title === item.title);
+    if (existingCartItem) {
+      existingCartItem.quantity += 1;
+    } else {
+      this.cartItems.push({ ...item, quantity: 1 });
+    }
+    this.updateUserDetails();
   }
 
-  initItemQuantity(quantitySignal: WritableSignal<number>, quantity: number) {
+  // Remove item from cart and update the cartItems array
+  removeFromCart(item: ItemDetails): void {
+    const index = this.cartItems.findIndex(cartItem => cartItem.title === item.title);
+    if (index > -1) {
+      this.cartItems.splice(index, 1);
+    }
+    this.updateUserDetails();
+  }
+
+  // Update quantity in the cart for an existing item
+  updateCartItemQuantity(item: ItemDetails, isAdding: boolean): void {
+    const existingCartItem = this.cartItems.find(cartItem => cartItem.title === item.title);
+    if (existingCartItem) {
+      existingCartItem.quantity = isAdding
+        ? existingCartItem.quantity + 1
+        : Math.max(0, existingCartItem.quantity - 1);
+
+      if (existingCartItem.quantity === 0) {
+        this.removeFromCart(item);
+      }
+    }
+    this.updateUserDetails();
+  }
+
+  // Update the quantity displayed in the store
+  updateDomQuantity(quantity: WritableSignal<number>, isAdding: boolean): void {
+    quantity.update(number => (isAdding ? number + 1 : Math.max(0, number - 1)));
+
+  }
+
+  // Initialize store item quantity to sync with cart
+  initItemQuantity(quantitySignal: WritableSignal<number>, quantity: number): void {
     quantitySignal.set(quantity);
   }
 
-  getUserItems() {
-    const userData = localStorage.getItem('user');
-    if (!userData) return;
-    const user = JSON.parse(userData);
-    return user.basket;
-  }
-
+  // Update both store and cart when an item is added/removed in the UI
   updateItem(quantity: WritableSignal<number>, item: ItemDetails, isAdding: boolean) {
-    // Update the quantity in the DOM
+    // Update the quantity in the DOM (UI)
     this.updateDomQuantity(quantity, isAdding);
 
-    // Get user details from localStorage or another source
-    const user = this.getUserDetails();
+    // Update the `storeItems` array
+    this.updateStoreItem(item.title, isAdding);
 
-    // Update the item in the user's basket
-    this.updateBasket(user, item, isAdding);
-
-    // Update the basket in localStorage
-    this.updateUserDetails(user);
+    // Update the quantity in the cart
+    this.updateCartItemQuantity(item, isAdding);
   }
 
-
-
-
-
+  private updateStoreItem(title: string, isAdding: boolean) {
+    const storeItem = this.storeItems.find((item) => item.title === title);
+    if (storeItem) {
+      storeItem.quantity = isAdding
+        ? storeItem.quantity + 1
+        : Math.max(0, storeItem.quantity - 1);
+    }
+  }
 }
 /*  updateItem(quantity: WritableSignal<number>, item: ItemDetails, isAdding: boolean) {
 

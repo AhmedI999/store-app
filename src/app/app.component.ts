@@ -1,9 +1,10 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, OnInit, signal} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {HeaderComponent} from "./header/header.component";
 import {StoreItemComponent} from "./store/store-item/store-item.component";
 import {StoreComponent} from "./store/store.component";
 import {StoreService} from "../store.service";
+import {ItemDetails} from "./ItemDetails.model";
 
 @Component({
   selector: 'app-root',
@@ -12,8 +13,8 @@ import {StoreService} from "../store.service";
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
+export class AppComponent{
   storeService = inject(StoreService);
-  storeItems = this.storeService.storeItems;
+  storeItems = signal<ItemDetails[]>(this.storeService.getStoreItems());
 
 }
