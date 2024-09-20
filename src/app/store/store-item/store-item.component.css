@@ -1,0 +1,62 @@
+:host {
+  border: 2px solid #aaa;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  box-shadow: 0 1rem 2rem rgba(0,0 ,0, 0.1);
+}
+
+img {
+  width: 100%;
+  overflow: hidden;
+}
+
+h3 {
+  font-size: 1.6rem;
+}
+
+p {
+  font-size: 1.4rem;
+  line-height: 1.2;
+  letter-spacing: .5px;
+}
+
+.price-quantity {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  padding: 0 1rem;
+  gap: 1rem;
+}
+
+.price {
+  font-weight: 600;
+  font-size: 2rem;
+}
+
+.quantity {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  font-size: 16px;
+}
+
+button {
+  background-color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.icon-minus {
+  color: #dc1a1a;
+}
+.icon-plus {
+  color: #1e8a1e;
+}
