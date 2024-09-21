@@ -2,7 +2,7 @@
   position: absolute;
   top: 0; left: 0;
   width: 100%;
-  height: 300%;
+  height: 500%;
   z-index: -1;
   content: '';
   background-size: cover;
