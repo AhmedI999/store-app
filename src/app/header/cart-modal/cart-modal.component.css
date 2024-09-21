@@ -43,3 +43,12 @@ button {
   align-items: center;
 }
 
+@media only screen and (max-width: 31.25em) {
+  .cart-item {
+    flex-direction: column;
+  }
+  .price-quantity {
+    gap: .8rem;
+    text-wrap: nowrap;
+  }
+}
