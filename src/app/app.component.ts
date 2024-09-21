@@ -15,5 +15,4 @@ import {StoreService} from "../store.service";
 export class AppComponent {
   storeService = inject(StoreService);
   storeItems = this.storeService.storeItems;
-
 }

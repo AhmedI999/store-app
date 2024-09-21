@@ -1,4 +1,4 @@
-import {Component, computed, inject, output, signal} from '@angular/core';
+import {Component, inject,} from '@angular/core';
 import {StoreService} from "../../store.service";
 import {MatDialog} from "@angular/material/dialog";
 import {CartModalComponent} from "./cart-modal/cart-modal.component";
@@ -10,15 +10,17 @@ import {CartModalComponent} from "./cart-modal/cart-modal.component";
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
-export class HeaderComponent {
+export class HeaderComponent{
   storeService = inject(StoreService);
+  totalItems = this.storeService.totalItems;
+  cartItems = this.storeService.cartItems;
 
   constructor(private dialog: MatDialog) {}
 
   onCartClicked() {
-    const userItems = this.storeService.getUserItems();
     this.dialog.open(CartModalComponent, {
-      data: userItems,
+      data: this.cartItems,
     });
   }
+
 }

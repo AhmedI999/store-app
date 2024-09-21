@@ -1,4 +1,4 @@
-import {Injectable, Signal, WritableSignal} from "@angular/core";
+import {Injectable, signal, Signal, WritableSignal} from "@angular/core";
 import {ItemDetails, UserDetails} from "./app/ItemDetails.model";
 
 @Injectable({
@@ -34,7 +34,9 @@ export class StoreService {
       price: 300,
     },
   ];
-  cartItems: ItemDetails[] = [];
+  cartItems = signal<ItemDetails[]>([]);
+  totalItems = signal<number>(0);
+  totalPrice = signal<number>(0);
 
   private getUserDetails(): UserDetails {
     const user = localStorage.getItem('user')!;
@@ -89,11 +91,20 @@ export class StoreService {
     });
   }
 
+  private initCartTotalItems() {
+    const userItems: ItemDetails[] = this.userItems || [];
+    const totalItemsInCart = userItems.reduce((sum, basketItem) => sum + basketItem.quantity, 0);
+    const totalPriceInCart = userItems.reduce((sum, basketItem) => sum + (basketItem.price * basketItem.quantity), 0);
+    this.totalItems.set(totalItemsInCart);
+    this.totalPrice.set(totalPriceInCart);
+  }
+
   initItemQuantity(quantitySignal: WritableSignal<number>, quantity: number) {
+    this.initCartTotalItems();
     quantitySignal.set(quantity);
   }
 
-  getUserItems() {
+  get userItems() {
     const userData = localStorage.getItem('user');
     if (!userData) return;
     const user = JSON.parse(userData);
@@ -112,44 +123,28 @@ export class StoreService {
 
     // Update the basket in localStorage
     this.updateUserDetails(user);
+
+    // update items in cart
+    this.cartItems.set(user.basket);
+    // Recalculate the total items in the cart and update the signal
+    const totalItemsInCart = user.basket.reduce((sum, basketItem) => sum + basketItem.quantity, 0);
+    // Recalculate the total items in the cart and update the signal
+    const totalPriceInCart = user.basket.reduce((sum, basketItem) => sum + (basketItem.price * basketItem.quantity), 0);
+    this.totalItems.set(totalItemsInCart);
+    this.totalPrice.set(totalPriceInCart);
   }
 
-
-
-
-
-}
-/*  updateItem(quantity: WritableSignal<number>, item: ItemDetails, isAdding: boolean) {
-
-    quantity.update((number: number) => isAdding ? number + 1 : Math.max(0, number - 1));
-
-    // Get user details from localStorage or another source
+  resetUserItems() {
+    // handle reset in local storage
     const user = this.getUserDetails();
-
-    // Find the item in the user's basket if it exists
-    const existingItem = user.basket.find(userItem => userItem.title === item.title);
-
-    if (existingItem) {
-      // Update the quantity if the item exists in the basket
-      existingItem.quantity = isAdding
-        ? existingItem.quantity + 1
-        : Math.max(0, existingItem.quantity - 1);
-
-      // Remove the item if the quantity drops to 0
-      if (existingItem.quantity === 0) {
-        user.basket = user.basket.filter(userItem => userItem.title !== item.title);
-      }
-    } else if (isAdding) {
-      // Add new item if it doesn't exist and the operation is adding
-      user.basket.push({
-        imagePath: item.imagePath,
-        imageAlt: item.imageAlt,
-        title: item.title,
-        price: item.price,
-        quantity: 1,
-      });
-    }
-
-    // Update the basket in localStorage
+    user.basket = [];
     this.updateUserDetails(user);
-  } */
+    // handle cart reset
+    this.cartItems.set([]);
+    this.totalItems.set(0);
+    this.totalPrice.set(0);
+
+
+
+  }
+}

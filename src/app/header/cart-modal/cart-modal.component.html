@@ -1,17 +1,14 @@
 <h1 mat-dialog-title class="mat-title-large center">
-  Total Bill: $ <span>680</span>
+  Total Bill: $ <span>{{ totalPrice() }}</span>
 </h1>
 <div class="cart-actions">
   <button class="btn-checkout">Checkout</button>
-  <button class="btn-clear">Clear Cart</button>
+  <button class="btn-clear" (click)="onClearCart()">Clear Cart</button>
 </div>
 <div mat-dialog-content>
   <ul class="cart-list">
-    @for (item of data; track item.price){
-      <li class="cart-container">
-        <app-store-item [details]="item"/>
-      </li>
-<!--        <li class="cart-list-item"> {{ item.title }} - {{ item.quantity }} </li>-->
+    @for (item of data(); track item.price){
+      <app-store-item [details]="item" class="cart-item"/>
     }
   </ul>
 </div>

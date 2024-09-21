@@ -1,4 +1,4 @@
-import {Component, ElementRef, inject, input, OnInit, signal} from '@angular/core';
+import {Component, ElementRef, inject, input, OnInit, output, signal} from '@angular/core';
 import {NgOptimizedImage} from "@angular/common";
 import {ItemDetails} from "../../ItemDetails.model";
 import {StoreService} from "../../../store.service";
@@ -16,17 +16,22 @@ import {StoreService} from "../../../store.service";
   }
 })
 export class StoreItemComponent implements OnInit{
-  details = input.required<ItemDetails>();
   storeService = inject(StoreService);
+  details = input.required<ItemDetails>();
   quantity = signal<number>(0);
 
   ngOnInit(): void {
-    const userItems: ItemDetails[] = this.storeService.getUserItems();
+    const userItems: ItemDetails[] = this.storeService.userItems;
+
     if (userItems) {
-      for (const storeItem of userItems) {
-        this.storeService.initItemQuantity(this.quantity, storeItem.quantity);
+      const item = userItems.find(
+        (userItem) => userItem.title === this.details().title
+      );
+      if (item) {
+        this.storeService.initItemQuantity(this.quantity, item.quantity);
       }
     }
+
   }
 
   onPlusClicked() {

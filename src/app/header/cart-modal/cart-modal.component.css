@@ -28,10 +28,20 @@ button {
   background-color: #e03131;
 }
 
+
 .cart-list {
   list-style: none;
+  width: 40rem;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.2rem;
 }
 
-.cart-list-item {
-
+.cart-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
+
