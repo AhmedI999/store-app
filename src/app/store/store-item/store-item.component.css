@@ -79,3 +79,10 @@ button:hover {
 .icon-plus {
   color: #27ae60;
 }
+
+@media only screen and (max-width: 31.25em) {
+  .price-quantity {
+    gap: .8rem;
+    text-wrap: nowrap;
+  }
+}

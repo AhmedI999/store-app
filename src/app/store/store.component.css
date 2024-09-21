@@ -2,9 +2,8 @@
   position: absolute;
   top: 0; left: 0;
   width: 100%;
-  height: 200%;
+  height: 300%;
   z-index: -1;
-
   content: '';
   background-size: cover;
   background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%), url('https://www.transparenttextures.com/patterns/white-wall.png') repeat fixed;
