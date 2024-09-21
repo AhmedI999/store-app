@@ -7,7 +7,7 @@
 </div>
 <div mat-dialog-content>
   <ul class="cart-list">
-    @for (item of data(); track item.price){
+    @for (item of data(); track item.title){
       <app-store-item [details]="item" class="cart-item"/>
     }
   </ul>

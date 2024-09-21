@@ -21,18 +21,77 @@ export class StoreService {
       price: 100,
     },
     {
+
       imagePath: "images/img-3.jpg",
       imageAlt: "A Shirt",
       title: "T Shirt",
       quantity: 0,
       price: 25,
-    },{
+    }, {
       imagePath: "images/img-4.jpg",
       imageAlt: "A Suit",
       title: "Mens Suit",
       quantity: 0,
       price: 300,
     },
+    {
+      imagePath: "images/img-5.png",
+      imageAlt: "A Tie",
+      title: "Mens Tie",
+      quantity: 0,
+      price: 25,
+    },
+    {
+      imagePath: "images/img-6.png",
+      imageAlt: "shoes",
+      title: "Casual shoes",
+      quantity: 0,
+      price: 200,
+    },
+    {
+      imagePath: "images/img-7.png",
+      imageAlt: "A Suit",
+      title: "black suit",
+      quantity: 0,
+      price: 450,
+    },
+    {
+      imagePath: "images/img-8.png",
+      imageAlt: "A shirt",
+      title: "polo shirt",
+      quantity: 0,
+      price: 45,
+    },
+    {
+      imagePath: "images/img-9.png",
+      imageAlt: "A shirt",
+      title: "denim shirt",
+      quantity: 0,
+      price: 85,
+    },
+    {
+      imagePath: "images/img-10.png",
+      imageAlt: "Pants",
+      title: "denim pants",
+      quantity: 0,
+      price: 120,
+    },
+    {
+      imagePath: "images/img-11.png",
+      imageAlt: "Cap",
+      title: "basic cap",
+      quantity: 0,
+      price: 35,
+    },
+    {
+      imagePath: "images/img-12.png",
+      imageAlt: "leather boots",
+      title: "leather boots",
+      quantity: 0,
+      price: 350,
+    },
+
+
   ];
   cartItems = signal<ItemDetails[]>([]);
   totalItems = signal<number>(0);
