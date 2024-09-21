@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnChanges, SimpleChanges} from '@angular/core';
 import {CartModalComponent} from "../header/cart-modal/cart-modal.component";
 
 @Component({
@@ -13,6 +13,6 @@ import {CartModalComponent} from "../header/cart-modal/cart-modal.component";
     class: 'container'
   }
 })
-export class StoreComponent {
+export class StoreComponent{
 
 }

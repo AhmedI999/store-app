@@ -38,7 +38,6 @@ export class StoreService {
   totalItems = signal<number>(0);
   totalPrice = signal<number>(0);
 
-
   private getUserDetails(): UserDetails {
     const user = localStorage.getItem('user')!;
     return user ? JSON.parse(user) : {id: Math.random(), basket: []};
@@ -48,7 +47,7 @@ export class StoreService {
     localStorage.setItem('user', JSON.stringify(user));
   }
 
-  private updateDomQuantity(quantity: WritableSignal<number>, isAdding: boolean): void {
+   private updateDomQuantity(quantity: WritableSignal<number>, isAdding: boolean): void {
     // Update the quantity in the DOM
     // Math.max ensures that the value never go below zero
     quantity.update((number: number) => isAdding ? number + 1 : Math.max(0, number - 1))
@@ -92,18 +91,13 @@ export class StoreService {
     });
   }
 
-  private initCartTotalItems() {
+  initCartTotalItems() {
     const userItems: ItemDetails[] = this.userItems || [];
     const totalItemsInCart = userItems.reduce((sum, basketItem) => sum + basketItem.quantity, 0);
     const totalPriceInCart = userItems.reduce((sum, basketItem) => sum + (basketItem.price * basketItem.quantity), 0);
     this.totalItems.set(totalItemsInCart);
     this.totalPrice.set(totalPriceInCart);
     this.cartItems.set(userItems);
-  }
-
-  initItemQuantity(quantitySignal: WritableSignal<number>, quantity: number) {
-    this.initCartTotalItems();
-    quantitySignal.set(quantity);
   }
 
   get userItems() {
@@ -113,25 +107,20 @@ export class StoreService {
     return user.basket;
   }
 
-  updateItem(quantity: WritableSignal<number>, item: ItemDetails, isAdding: boolean) {
-    // Update the quantity in the DOM
-    this.updateDomQuantity(quantity, isAdding);
-
-    // Get user details from localStorage or another source
+  getItemQuantity(title: string): number {
+    const userItems: ItemDetails[] = this.userItems || [];
+    const item = userItems.find(userItem => userItem.title === title);
+    return item ? item.quantity : 0;
+  }
+  updateItemQuantity(item: ItemDetails, isAdding: boolean): void {
     const user = this.getUserDetails();
-
-    // Update the item in the user's basket
     this.updateBasket(user, item, isAdding);
-
-    // Update the basket in localStorage
     this.updateUserDetails(user);
-
-    // update items in cart
     this.cartItems.set(user.basket);
-    // Recalculate the total items in the cart and update the signal
+
     const totalItemsInCart = user.basket.reduce((sum, basketItem) => sum + basketItem.quantity, 0);
-    // Recalculate the total items in the cart and update the signal
     const totalPriceInCart = user.basket.reduce((sum, basketItem) => sum + (basketItem.price * basketItem.quantity), 0);
+
     this.totalItems.set(totalItemsInCart);
     this.totalPrice.set(totalPriceInCart);
   }
@@ -145,8 +134,5 @@ export class StoreService {
     this.cartItems.set([]);
     this.totalItems.set(0);
     this.totalPrice.set(0);
-
-
-
   }
 }

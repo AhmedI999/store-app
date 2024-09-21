@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {HeaderComponent} from "./header/header.component";
 import {StoreItemComponent} from "./store/store-item/store-item.component";
@@ -12,7 +12,7 @@ import {StoreService} from "../store.service";
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
+export class AppComponent{
   storeService = inject(StoreService);
   storeItems = this.storeService.storeItems;
 }

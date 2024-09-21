@@ -1,23 +1,26 @@
 header {
   display: flex;
   justify-content: space-between;
-  background-color: #212529;
-  color: white;
   padding: 2.5rem 6rem;
   margin-bottom: 3rem;
   font-size: 2rem;
+
+  background-size: cover;
+  background: #212529 linear-gradient(135deg, #c3cfe2 0%, #f5f7fa 100%), url('https://www.transparenttextures.com/patterns/pinstripe.png') repeat fixed;
+  color: #333333;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .cart-container {
   position: relative;
   background-color: inherit;
   border: none;
+  margin-bottom: .7rem;
 }
 
 .cart {
   cursor: pointer;
   font-size: 2.6rem;
-  margin-top: .5rem;
   background-color: #862e9c;
   padding: 1.2rem;
   border-radius: 8px;

@@ -1,9 +1,9 @@
-import {Component, inject, Inject, WritableSignal} from '@angular/core';
+import {Component, inject, Inject, OnDestroy, WritableSignal} from '@angular/core';
 import {
   MAT_DIALOG_DATA,
   MatDialogActions,
   MatDialogClose,
-  MatDialogContent,
+  MatDialogContent, MatDialogRef,
   MatDialogTitle
 } from "@angular/material/dialog";
 import {ItemDetails} from "../../ItemDetails.model";
@@ -25,10 +25,16 @@ import {StoreService} from "../../../store.service";
   templateUrl: './cart-modal.component.html',
   styleUrl: './cart-modal.component.css'
 })
-export class CartModalComponent {
+export class CartModalComponent implements OnDestroy{
   data: WritableSignal<ItemDetails[]> = inject(MAT_DIALOG_DATA);
+  dialogRef = inject(MatDialogRef<CartModalComponent>);
   storeService = inject(StoreService);
   totalPrice = this.storeService.totalPrice;
+
+  ngOnDestroy(): void {
+    this.dialogRef.close(this.data);
+  }
+
 
   onClearCart() {
     this.storeService.resetUserItems();
