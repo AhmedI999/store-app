@@ -1,10 +1,10 @@
 :host {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  justify-content: center;
-  align-items: center;
-  padding: 2rem 4rem;
   gap: 2rem;
+  padding: 2rem 4rem;
+  max-width: 120rem;
+  margin: 0 auto;
 }
 
 @media only screen and (max-width: 62em) {
@@ -19,8 +19,4 @@
   }
 }
 
-@media only screen and (max-width: 25em) {
-  :host {
-    grid-template-columns: 1fr;
-  }
-}
+

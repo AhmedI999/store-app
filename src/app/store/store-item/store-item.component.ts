@@ -29,6 +29,7 @@ export class StoreItemComponent implements OnInit{
       );
       if (item) {
         this.storeService.initItemQuantity(this.quantity, item.quantity);
+
       }
     }
 

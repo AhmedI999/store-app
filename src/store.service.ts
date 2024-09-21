@@ -38,6 +38,7 @@ export class StoreService {
   totalItems = signal<number>(0);
   totalPrice = signal<number>(0);
 
+
   private getUserDetails(): UserDetails {
     const user = localStorage.getItem('user')!;
     return user ? JSON.parse(user) : {id: Math.random(), basket: []};
@@ -97,6 +98,7 @@ export class StoreService {
     const totalPriceInCart = userItems.reduce((sum, basketItem) => sum + (basketItem.price * basketItem.quantity), 0);
     this.totalItems.set(totalItemsInCart);
     this.totalPrice.set(totalPriceInCart);
+    this.cartItems.set(userItems);
   }
 
   initItemQuantity(quantitySignal: WritableSignal<number>, quantity: number) {

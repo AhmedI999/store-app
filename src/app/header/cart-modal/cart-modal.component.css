@@ -28,11 +28,9 @@ button {
   background-color: #e03131;
 }
 
-
 .cart-list {
   list-style: none;
-  width: 40rem;
-  margin: 0 auto;
+  padding: 1rem 4rem;
   display: grid;
   grid-template-columns: 1fr;
   gap: 1.2rem;

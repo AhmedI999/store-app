@@ -18,9 +18,15 @@ export class HeaderComponent{
   constructor(private dialog: MatDialog) {}
 
   onCartClicked() {
-    this.dialog.open(CartModalComponent, {
+    const dialogRef = this.dialog.open(CartModalComponent, {
       data: this.cartItems,
+      width: '80%'
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+
     });
   }
+
 
 }
